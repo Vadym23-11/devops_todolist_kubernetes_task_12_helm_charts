@@ -21,17 +21,17 @@ spec:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mysql-secrets
+              name: {{.Chart.Name}}-secrets
               key: MYSQL_ROOT_PASSWORD
         - name: MYSQL_USER
           valueFrom:
             secretKeyRef:
-              name: mysql-secrets
+              name: {{.Chart.Name}}-secrets
               key: MYSQL_USER
         - name: MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mysql-secrets
+              name: {{.Chart.Name}}-secrets
               key: MYSQL_PASSWORD
         - name: MYSQL_DATABASE
           value: app_db
@@ -61,7 +61,7 @@ spec:
           periodSeconds: 2
           timeoutSeconds: 1
       volumes:
-      - name: config-map
+      - name: {{.Chart.Name}}-config
         configMap:
           name: mysql
       tolerations:
