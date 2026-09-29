@@ -32,16 +32,16 @@ spec:
           readOnly: true
         resources:
           requests:
-            memory: {{.Values.todoapp.resources.requests.meory}}
+            memory: {{.Values.todoapp.resources.requests.memory}}
             cpu: {{.Values.todoapp.resources.requests.cpu}}
           limits:
-            memory: {{.Values.todoapp.resources.requests.meory}}
-            cpu: {{.Values.todoapp.resources.requests.cpu}}
+            memory: {{.Values.todoapp.resources.limits.memory}}
+            cpu: {{.Values.todoapp.resources.limits.cpu}}
         env:
         - name: PYTHONUNBUFFERED
           valueFrom:
             configMapKeyRef:
-              name: app-config
+              name: {{.Chart.Name}}-config
               key: PYTHONUNBUFFERED
         {{- range $k, $_ := .Values.todoapp.secrets}}
         - name: {{$k}}
@@ -70,10 +70,10 @@ spec:
           claimName: pvc-data
       - name: app-secrets-volume
         secret:
-          secretName: app-secret
+          secretName: {{.Chart.Name}}-secret
       - name: app-config-volume
         configMap:
-          name: app-config
+          name: {{.Chart.Name}}-config
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
